@@ -3,15 +3,29 @@ from src import frame as fr
 from src import layout
 import os
 import time
+import sys
 
 FRAME_TIME = 1/24
+
+def enable_tui():
+    sys.stdout.write("\033[?1049h")   # alt screen
+    sys.stdout.write("\033[?25l")     # hide cursor
+    sys.stdout.write("\033[?1000h\033[?1002h\033[?1003h\033[?1006h")  # mouse
+    sys.stdout.flush()
+
+def disable_tui():
+    sys.stdout.write("\033[?1049l")   # back to normal
+    sys.stdout.write("\033[?25h")     # show cursor
+    sys.stdout.write("\033[?1000l\033[?1002l\033[?1003l\033[?1006l")  # disable mouse
+    sys.stdout.flush()
+
 
 # The project is setup so this function get called when we run the project
 def main():
     
     # Clear the terminal of any previous text
-    os.system("cls")
-
+    enable_tui()
+    
     # Create a new renderer
     main_renderer = renderer.new()
     
@@ -38,21 +52,27 @@ def main():
     # Everytime we check how long it takes for the loop to run
     # Then we sub that and frame time and we halt execution for that time
     # In short the if frame time is 1/24 the code inside loop only runs 24 times a second
-    while True:
-        start = time.perf_counter()
+    
+    try:
         
-        # We check if the terminal size has changed if it has then 
-        curr_size = os.get_terminal_size()
-        if prev_cols != curr_size.columns or prev_rows != curr_size.lines:
-            layout.update(curr_size.columns, curr_size.lines, frames)
-            prev_cols, prev_rows = curr_size.columns, curr_size.lines
+        while True:
+            start = time.perf_counter()
+        
+            # We check if the terminal size has changed if it has then 
+            curr_size = os.get_terminal_size()
+            if prev_cols != curr_size.columns or prev_rows != curr_size.lines:
+                layout.update(curr_size.columns, curr_size.lines, frames)
+                prev_cols, prev_rows = curr_size.columns, curr_size.lines
+                
+            end = time.perf_counter()
             
-        end = time.perf_counter()
-        
-        elapsed = end - start
-        
-        diff = FRAME_TIME - elapsed
-        if diff > 0:
-            time.sleep(diff)
-        
-        main_renderer["render"]()
+            elapsed = end - start
+            
+            diff = FRAME_TIME - elapsed
+            if diff > 0:
+                time.sleep(diff)
+            
+            main_renderer["render"]()
+            
+    finally:
+        disable_tui()

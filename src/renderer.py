@@ -72,7 +72,8 @@ def new():
         # and only prints when we call .flush it also doesn't do stuf like formating and other stuff
         
         # \033[3J\033[2J\033[H will clear the terminal hide the cursor and move the cursor to the top
-        sys.stdout.write("\033[3J\033[2J\033[H\033[?25l" + output)
+        
+        sys.stdout.write("\033[3J\033[2J\033[H" + output)
         sys.stdout.flush()
     
         
