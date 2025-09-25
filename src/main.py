@@ -44,7 +44,7 @@ def main():
         # We check if the terminal size has changed if it has then 
         curr_size = os.get_terminal_size()
         if prev_cols != curr_size.columns or prev_rows != curr_size.lines:
-            layout(curr_size.columns, curr_size.lines, frames)
+            layout.update(curr_size.columns, curr_size.lines, frames)
             prev_cols, prev_rows = curr_size.columns, curr_size.lines
             
         end = time.perf_counter()
