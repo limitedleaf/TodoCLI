@@ -1,8 +1,8 @@
 from src import renderer
 from src import frame as fr
+from src import layout
 import os
 import time
-import layout
 
 FRAME_TIME = 1/24
 
