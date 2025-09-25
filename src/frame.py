@@ -1,8 +1,10 @@
 from src import vector2
 from src import renderer
 
+# Create a frame
 def new(content = []):
     
+    # Default state of the frame
     state = [
         vector2.new(0, 0),          # size
         vector2.new(0, 0),          # position
@@ -10,6 +12,8 @@ def new(content = []):
         False                       # initialized
     ]
     
+    # Functions to get and modify different stuff in the frame
+    # Changing any of these functions will set the frame to not initialized
     def get_size():
         return state[0]
     
@@ -22,7 +26,6 @@ def new(content = []):
     def set_position(x, y):
         state[1]["set"](x, y)
     
-    
     def get_content():
         return state[2]
     
@@ -32,7 +35,7 @@ def new(content = []):
     def is_initialized():
         return state[3]
     
-    
+    # Init checks if the frame's state is valid for the renderer to process
     def init():
         size_x, size_y = state[0]["get"]()
         content = state[2]
@@ -49,7 +52,8 @@ def new(content = []):
         state[3] = True
         
         return True
-            
+    
+    # We return dict of functions
     return {
         "id": "frame",
         "get_size": get_size,

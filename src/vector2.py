@@ -1,7 +1,11 @@
+# A data type to store a pair of values
+
 def new(x, y):
     
+    # Default state of the vector
     state = [x, y]
-        
+
+    # Simple function to get / modify the vector
     def get():
         return state[0], state[1]
     
