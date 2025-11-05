@@ -11,5 +11,5 @@ git clone https://github.com/limitedleaf/TodoCLI
 Run it with
 
 ```
-python -m src
+python Todo.py
 ```
